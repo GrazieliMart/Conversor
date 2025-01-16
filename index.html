@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.jpeg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@latest"></script> <!-- FFmpeg.js CDN -->
+ 
+    <title>Conversão de Arquivos GGDIGITAL</title>
+    <style>
+       body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 50px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group select, .form-group button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 50px;
+            font-size: 16px;
+        }
+        .form-group button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .output {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Flexbox para alinhar os conversores lado a lado */
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .converter-container {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Conversores lado a lado -->
+ 
+     
+     <div id="imageConverter" class="container">
+                <h2>Conversor de Imagem</h2>
+                <form id="imageConverterForm">
+                    <div class="form-group">
+                        <label for="imageFileInput">Carregar Imagem PNG:</label>
+                        <input type="file" id="imageFileInput" accept="image/png" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="imageFormat">Converter para Formato:</label>
+                        <select id="imageFormat">
+                            <option value="jpeg">JPEG</option>
+                            <option value="webp">WEBP</option>
+                            <option value="bmp">BMP</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="convertImageButton">Converter</button>
+                    </div>
+                </form>
+                <div class="output" id="imageOutput"></div>
+            </div>
+  <div id="documentConverter"class="container">
+                <h2>Conversor de Vídeo</h2>
+                <form id="videoConverterForm">
+                    <div class="form-group">
+                        <label for="videoFileInput">Carregar Arquivo de Vídeo:</label>
+                        <input type="file" id="videoFileInput" accept="video/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoFormat">Converter para Formato:</label>
+                        <select id="videoFormat">
+                            <option value="mp4">MP4</option>
+                            <option value="avi">AVI</option>
+                            <option value="mov">MOV</option>
+                            <option value="webm">WEBM</option> <!-- Nova opção WEBM -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="convertVideoButton">Converter</button>
+                    </div>
+                </form>
+                <div class="output" id="videoOutput"></div>
+            </div>
+        <!-- Conversão de Documento -->
+        <div id="documentConverter" class="container">
+            <h2>Conversor de Documento</h2>
+            <form id="documentConverterForm">
+                <div class="form-group">
+                    <label for="documentFileInput">Carregar Documento:</label>
+                    <input type="file" id="documentFileInput" accept=".pdf,.doc,.docx,.txt,.odt,.rtf" required>
+                </div>
+                <div class="form-group">
+                    <label for="documentFormat">Converter para Formato:</label>
+                    <select id="documentFormat">
+                        <option value="pdf">PDF</option>
+                        <option value="docx">DOCX</option>
+                        <option value="txt">TXT</option>
+                        <option value="odt">ODT</option>
+                        <option value="rtf">RTF</option> <!-- Nova opção RTF -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="button" id="convertDocumentButton">Converter</button>
+                </div>
+            </form>
+            <div class="output" id="documentOutput"></div>
+        </div>
+    </div>
+
+    <div id="audioConverter" class="container">
+        <h2>Conversor de Áudio</h2>
+        <form id="audioConverterForm">
+            <div class="form-group">
+                <label for="audioFileInput">Carregar Arquivo de Áudio:</label>
+                <input type="file" id="audioFileInput" accept="audio/*" required>
+            </div>
+            <div class="form-group">
+                <label for="audioFormat">Converter para Formato:</label>
+                <select id="audioFormat">
+                    <option value="mp3">MP3</option>
+                    <option value="wav">WAV</option>
+                    <option value="ogg">OGG</option>
+                    <option value="flac">FLAC</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="button" id="convertAudioButton">Converter</button>
+            </div>
+        </form>
+        <div class="output" id="audioOutput"></div>
+    </div>
+
+    <script>
+        // Função para manipular conversão de áudio (exemplo básico)
+        document.getElementById('convertAudioButton').addEventListener('click', () => {
+            const file = document.getElementById('audioFileInput').files[0];
+            const format = document.getElementById('audioFormat').value;
+            const output = document.getElementById('audioOutput');
+    
+            if (!file) {
+                alert('Por favor, carregue um arquivo de áudio.');
+                return;
+            }
+    
+            // Este exemplo apenas oferece a possibilidade de download do arquivo de áudio sem conversão real.
+            const fileUrl = URL.createObjectURL(file);
+            output.innerHTML = `<a href="${fileUrl}" download="audio-convertido.${format}">Baixar Áudio Convertido</a>`;
+        });
+    </script>
+
+    <script>
+        // Função para manipular conversão de imagem
+        document.getElementById('convertImageButton').addEventListener('click', () => {
+            const file = document.getElementById('imageFileInput').files[0];
+            const format = document.getElementById('imageFormat').value;
+            const output = document.getElementById('imageOutput');
+
+            if (!file) {
+                alert('Por favor, carregue uma imagem.');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+
+                    canvas.toBlob((blob) => {
+                        const fileUrl = URL.createObjectURL(blob);
+                        output.innerHTML = `<a href="${fileUrl}" download="imagem-convertida.${format}">Baixar Imagem Convertida</a>`;
+                    }, `image/${format}`);
+                };
+                img.src = reader.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Função para manipular conversão de vídeo (exemplo básico)
+        document.getElementById('convertVideoButton').addEventListener('click', () => {
+            const file = document.getElementById('videoFileInput').files[0];
+            const format = document.getElementById('videoFormat').value;
+            const output = document.getElementById('videoOutput');
+
+            if (!file) {
+                alert('Por favor, carregue um arquivo de vídeo.');
+                return;
+            }
+
+            // Este exemplo apenas oferece a possibilidade de download do arquivo de vídeo sem conversão real.
+            const fileUrl = URL.createObjectURL(file);
+            output.innerHTML = `<a href="${fileUrl}" download="video-convertido.${format}">Baixar Vídeo Convertido</a>`;
+        });
+
+        // Função para manipular conversão de documento (exemplo básico)
+        document.getElementById('convertDocumentButton').addEventListener('click', () => {
+            const file = document.getElementById('documentFileInput').files[0];
+            const format = document.getElementById('documentFormat').value;
+            const output = document.getElementById('documentOutput');
+
+            if (!file) {
+                alert('Por favor, carregue um arquivo de documento.');
+                return;
+            }
+
+            // Simples manipulação de download do documento, sem conversão real.
+            const fileUrl = URL.createObjectURL(file);
+            output.innerHTML = `<a href="${fileUrl}" download="documento-convertido.${format}">Baixar Documento Convertido</a>`;
+        });
+    </script>
+</body>
+</html>
